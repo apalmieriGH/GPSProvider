@@ -100,9 +100,12 @@ public:
     };
 
     // [ST-GNSS] - Geofencing API
+    typedef float GeofenceCircleDistance_t;
     struct GeofencesTriggerParams_t {
-        int geofenceTransition;
-        GPSGeofence **triggeringGeofences;
+      uint8_t bitmap;
+      GPSGeofence *triggeringGeofence;
+      GeofenceCircleDistance_t distance;
+      int currentStatus;
     };
 
 public:
@@ -201,6 +204,11 @@ public:
      */
     uint32_t ioctl(uint32_t command, void *arg);
 
+    // [ST-GNSS] - Geofencing API
+    gps_provider_error_t configGeofences(GPSGeofence *geofences[]);
+    // [ST-GNSS] - Geofencing API
+    gps_provider_error_t geofenceReq(void);
+    
     /**
      * @return  true if we've obtained at least one valid location since last
      *     calling start().

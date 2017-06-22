@@ -97,6 +97,18 @@ GPSProvider::isGeofencingSupported(void) const
     return impl->isGeofencingSupported();
 }
 // [ST-GNSS] - Geofencing API
+gps_provider_error_t
+GPSProvider::configGeofences(GPSGeofence *geofences[])
+{ 
+  return impl->configGeofences(geofences);
+}
+// [ST-GNSS] - Geofencing API
+gps_provider_error_t
+GPSProvider::geofenceReq(void)
+{
+  return impl->geofenceReq();
+}
+// [ST-GNSS] - Geofencing API
 void
 GPSProvider::onGeofencesTrigger(GeofencesTriggerCallback_t callback)
 {

@@ -17,6 +17,7 @@
 #ifndef __GPS_PROVIDER_INSTANCE_BASE_H__
 #define __GPS_PROVIDER_INSTANCE_BASE_H__
 
+#include "GPSProviderCommon.h"
 #include "GPSProvider.h"
 #include "GPSGeofence.h"
 
@@ -29,6 +30,10 @@ public:
     virtual void process(void) = 0;
     virtual void lpmGetImmediateLocation(void) = 0;
     virtual uint32_t ioctl(uint32_t command, void *arg) = 0;
+    // [ST-GNSS] - Geofencing API
+    virtual gps_provider_error_t configGeofences(GPSGeofence *geofences[]) = 0;
+    // [ST-GNSS] - Geofencing API
+    virtual gps_provider_error_t geofenceReq(void) = 0;
 
     virtual bool haveDeviceInfo(void) const {
         return (deviceInfo != NULL);
@@ -59,7 +64,7 @@ protected:
     const char                              *deviceInfo;
     GPSProvider::LocationUpdateCallback_t   locationCallback;
     // [ST-GNSS] - Geofencing API
-    GPSGeofence                             **geofences;
+    GPSGeofence                             **_geofences;
     // [ST-GNSS] - Geofencing API
     GPSProvider::GeofencesTriggerCallback_t geofencesTriggerCallback; 
 };

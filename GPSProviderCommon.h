@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file    GPSGeofence.h
+ * @file    GPSProviderCommon.h
  * @author  AST/CL
  * @version V1.1.0
  * @date    Jun, 2017
@@ -35,63 +35,31 @@
  ******************************************************************************
  */
 
-#ifndef __GPS_GEOFENCE_H__
-#define __GPS_GEOFENCE_H__
+#ifndef __GPS_PROVIDER_COMMON_H__
+#define __GPS_PROVIDER_COMMON_H__
 
-class GPSProvider;
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-class GPSGeofence {
-public:
-    
-    static const int NEVER_EXPIRE = -1;
-
-    struct GeofenceCircle_t {
-      int id;
-      bool enabled;
-      int tolerance;
-      GPSProvider::LocationType_t lat;
-      GPSProvider::LocationType_t lon;
-      GPSProvider::LocationType_t radius;
-    };
-
-    /** 
-     * Construct a GPSGeofence instance. 
-     */ 
-    GPSGeofence() :
-        _expirationDuration(-1),
-        _notificationResponsiveness(0),
-        _transitionTypes(0) {
-    }
-    
-    virtual void setGeofenceCircle(const GeofenceCircle_t &geofenceCircle) {
-        _geofenceCircle.id = geofenceCircle.id;
-        _geofenceCircle.enabled = geofenceCircle.enabled;
-        _geofenceCircle.tolerance = _geofenceCircle.tolerance;
-        _geofenceCircle.lat = geofenceCircle.lat;
-        _geofenceCircle.lon = geofenceCircle.lon;
-        _geofenceCircle.radius = _geofenceCircle.radius;
-    }
-    
-    virtual void setExpirationDuration (long durationMillis) = 0;
-    
-    virtual void setNotificationResponsiveness (int notificationResponsivenessMs) {
-        _notificationResponsiveness = notificationResponsivenessMs;
-    }
-    
-    virtual void setTransitionTypes(int transitionTypes) {
-        _transitionTypes = transitionTypes;
-    }
-
-protected:
-    GeofenceCircle_t            _geofenceCircle;
-    long                        _expirationDuration;
-    int                         _notificationResponsiveness;
-    int                         _transitionTypes;
-
-private:
-    /* disallow copy constructor and assignment operators */
-    GPSGeofence(const GPSGeofence&);
-    GPSGeofence & operator= (const GPSGeofence&);
+   
+enum {
+  GEOFENCE_STATUS_UNKNOWN               = 0,
+  GEOFENCE_STATUS_OUTSIDE_CIRCLE        = 1,
+  GEOFENCE_STATUS_BOUNDARY_CIRCLE       = 2,
+  GEOFENCE_STATUS_INSIDE_CIRCLE         = 3
 };
 
-#endif /* __GPS_GEOFENCE_H__ */
+/*! @brief Error codes for the BLE API. */
+enum gps_provider_error_t {
+    GPS_ERROR_NONE                      = 0, /**< No error. */
+    GPS_ERROR_GEOFENCES_CFG             = 1, /**< Geofence regions config error. */
+    GPS_ERROR_GEOFENCE_NOT_IMPLEMENTED  = 2, /**< Geofence feature is not supported. */
+};
+  
+#ifdef __cplusplus
+}
+#endif
+
+
+#endif /* __GPS_PROVIDER_COMMON_H__ */
