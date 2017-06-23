@@ -19,6 +19,8 @@
 
 // [ST-GNSS] - Geofencing API
 class GPSGeofence; /* forward declaration */
+// [ST-GNSS] - Datalogging API
+class GPSDatalog; /* forward declaration */
 
 class GPSProviderImplBase; /* forward declaration */
 extern GPSProviderImplBase *createGPSProviderInstance(void);
@@ -105,9 +107,47 @@ public:
       uint8_t bitmap;
       GPSGeofence *triggeringGeofence;
       GeofenceCircleDistance_t distance;
-      int currentStatus;
+      uint8_t currentStatus;
     };
-
+    
+    // [ST-GNSS] - Datalogging API
+    struct LogTimestamp_t {
+      uint8_t sec;
+      uint8_t min;
+      uint8_t hour;
+      int day;
+      int month;
+      int year;
+    };
+    
+    // [ST-GNSS] - Datalogging API
+    struct LogStatusParams_t {
+      LogTimestamp_t firstEntryTimestamp;
+      LogTimestamp_t lastEntryTimestamp;
+      unsigned usedEntries;
+      uint8_t bufferStatus;
+      unsigned remainingFreeEntries;
+    };
+    // [ST-GNSS] - Datalogging API
+    struct LogQueryParams_t {
+      LogTimestamp_t startTimestamp;
+      unsigned entries;
+    };
+    // [ST-GNSS] - Datalogging API
+    struct LogQueryRespParams_t {
+      uint8_t statusBitmap;
+      uint8_t logMask;
+      LogTimestamp_t timestamp;
+      uint8_t fix;
+      unsigned quality;
+      uint8_t geo;
+      LocationType_t lat;
+      LocationType_t lon;
+      Altitude_t altitude;
+      double speed;
+      double odo;
+    };
+    
 public:
     /**
      * Set the operating mode for power. Typically this allows the user to
@@ -208,6 +248,18 @@ public:
     gps_provider_error_t configGeofences(GPSGeofence *geofences[]);
     // [ST-GNSS] - Geofencing API
     gps_provider_error_t geofenceReq(void);
+    // [ST-GNSS] - Datalogging API
+    gps_provider_error_t configLog(GPSDatalog *datalog);
+    // [ST-GNSS] - Datalogging API
+    gps_provider_error_t startLog(void);
+    // [ST-GNSS] - Datalogging API
+    gps_provider_error_t stopLog(void);
+    // [ST-GNSS] - Datalogging API
+    gps_provider_error_t eraseLog(void);
+    // [ST-GNSS] - Datalogging API
+    gps_provider_error_t logReqStatus(void);
+    // [ST-GNSS] - Datalogging API
+    gps_provider_error_t logReqQuery(LogQueryParams_t &logReqQuery);
     
     /**
      * @return  true if we've obtained at least one valid location since last
@@ -257,6 +309,14 @@ public:
     typedef void (* GeofencesTriggerCallback_t)(const GeofencesTriggerParams_t *params);
     // [ST-GNSS] - Geofencing API
     void onGeofencesTrigger(GeofencesTriggerCallback_t callback);
+    // [ST-GNSS] - Datalogging API
+    typedef void (* LogStatusCallback_t)(const LogStatusParams_t *params);
+    // [ST-GNSS] - Geofencing API
+    void onLogStatus(LogStatusCallback_t callback);
+    // [ST-GNSS] - Datalogging API
+    typedef void (* LogQueryCallback_t)(const LogQueryRespParams_t *params);
+    // [ST-GNSS] - Geofencing API
+    void onLogQuery(LogQueryCallback_t callback);
     
 public:
     /**

@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file    GPSGeofence.h
+ * @file    GPSDatalog.h
  * @author  AST/CL
  * @version V1.1.0
  * @date    Jun, 2017
@@ -35,47 +35,32 @@
  ******************************************************************************
  */
 
-#ifndef __GPS_GEOFENCE_H__
-#define __GPS_GEOFENCE_H__
+#ifndef __GPS_DATALOG_H__
+#define __GPS_DATALOG_H__
 
-class GPSProvider;
+//class GPSProvider;
 
-class GPSGeofence {
+class GPSDatalog {
 public:
     
-    static const int NEVER_EXPIRE = -1;
-
-    struct GeofenceCircle_t {
-      int id;
-      bool enabled;
-      int tolerance;
-      GPSProvider::LocationType_t lat;
-      GPSProvider::LocationType_t lon;
-      GPSProvider::LocationType_t radius;
-    };
-
     /** 
-     * Construct a GPSGeofence instance. 
+     * Construct a GPSDatalog instance. 
      */ 
-    GPSGeofence() :
-        _expirationDuration(-1),
-        _notificationResponsiveness(0),
-        _transitionTypes(0) {
+    GPSDatalog(bool          enableBufferFullAlarm,
+               bool          enableCircularBuffer,
+               unsigned      minRate,
+               unsigned      minSpeed,
+               unsigned      minPosition,
+               int           logMask) :
+        _enableBufferFullAlarm(enableBufferFullAlarm),
+        _enableCircularBuffer(enableCircularBuffer),
+        _minRate(minRate),
+        _minSpeed(minSpeed),
+        _minPosition(minPosition),
+        _logMask(logMask) {
     }
-    
-    void setGeofenceCircle(const GeofenceCircle_t &geofenceCircle) {
-        _geofenceCircle.id = geofenceCircle.id;
-        _geofenceCircle.enabled = geofenceCircle.enabled;
-        _geofenceCircle.tolerance = _geofenceCircle.tolerance;
-        _geofenceCircle.lat = geofenceCircle.lat;
-        _geofenceCircle.lon = geofenceCircle.lon;
-        _geofenceCircle.radius = _geofenceCircle.radius;
-    }
-    
-    const GeofenceCircle_t & getGeofenceCircle(void) {
-      return _geofenceCircle;
-    }
-    
+
+    /*
     virtual void setExpirationDuration (long durationMillis) = 0;
     
     virtual void setNotificationResponsiveness (int notificationResponsivenessMs) {
@@ -85,17 +70,20 @@ public:
     virtual void setTransitionTypes(int transitionTypes) {
         _transitionTypes = transitionTypes;
     }
+    */
 
 protected:
-    GeofenceCircle_t            _geofenceCircle;
-    long                        _expirationDuration;
-    int                         _notificationResponsiveness;
-    int                         _transitionTypes;
+  bool          _enableBufferFullAlarm;
+  bool          _enableCircularBuffer;
+  unsigned      _minRate;
+  unsigned      _minSpeed;
+  unsigned      _minPosition;
+  int           _logMask;
 
 private:
     /* disallow copy constructor and assignment operators */
-    GPSGeofence(const GPSGeofence&);
-    GPSGeofence & operator= (const GPSGeofence&);
+    GPSDatalog(const GPSDatalog&);
+    GPSDatalog & operator= (const GPSDatalog&);
 };
 
-#endif /* __GPS_GEOFENCE_H__ */
+#endif /* __GPS_DATALOG_H__ */

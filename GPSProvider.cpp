@@ -114,3 +114,39 @@ GPSProvider::onGeofencesTrigger(GeofencesTriggerCallback_t callback)
 {
     impl->onGeofencesTrigger(callback);
 }
+// [ST-GNSS] - Datalogging API
+gps_provider_error_t
+GPSProvider::configLog(GPSDatalog *datalog)
+{
+  return impl->configLog(datalog);
+}
+// [ST-GNSS] - Datalogging API
+gps_provider_error_t
+GPSProvider::startLog(void)
+{
+  return impl->startLog();
+}
+// [ST-GNSS] - Datalogging API
+gps_provider_error_t
+GPSProvider::stopLog(void)
+{
+  return impl->stopLog();
+}
+// [ST-GNSS] - Datalogging API
+gps_provider_error_t
+GPSProvider::eraseLog(void)
+{
+  return impl->eraseLog();
+}
+// [ST-GNSS] - Datalogging API
+gps_provider_error_t
+GPSProvider::logReqStatus(void)
+{
+  return impl->logReqStatus();
+}
+// [ST-GNSS] - Datalogging API
+gps_provider_error_t
+GPSProvider::logReqQuery(LogQueryParams_t &logReqQuery)
+{
+  return impl->logReqQuery(logReqQuery);
+}

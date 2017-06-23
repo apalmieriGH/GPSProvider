@@ -55,6 +55,13 @@ enum gps_provider_error_t {
     GPS_ERROR_NONE                      = 0, /**< No error. */
     GPS_ERROR_GEOFENCES_CFG             = 1, /**< Geofence regions config error. */
     GPS_ERROR_GEOFENCE_NOT_IMPLEMENTED  = 2, /**< Geofence feature is not supported. */
+    GPS_ERROR_LOG_CFG                   = 3, /**< Datalog config error. */
+    GPS_ERROR_LOG_START                 = 4, /**< Datalog start error. */
+    GPS_ERROR_LOG_STOP                  = 5, /**< Datalog stop error. */
+    GPS_ERROR_LOG_ERASE                 = 6, /**< Datalog erase error. */
+    GPS_ERROR_LOG_REQ_STATUS            = 7, /**< Datalog req status error. */
+    GPS_ERROR_LOG_REQ_QUERY             = 8, /**< Datalog req query error. */
+    GPS_ERROR_LOG_NOT_IMPLEMENTED       = 9 /**< Datalog feature is not supported. */
 };
   
 #ifdef __cplusplus

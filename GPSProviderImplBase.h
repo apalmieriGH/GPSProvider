@@ -20,6 +20,7 @@
 #include "GPSProviderCommon.h"
 #include "GPSProvider.h"
 #include "GPSGeofence.h"
+#include "GPSDatalog.h"
 
 class GPSProviderImplBase {
 public:
@@ -34,6 +35,18 @@ public:
     virtual gps_provider_error_t configGeofences(GPSGeofence *geofences[]) = 0;
     // [ST-GNSS] - Geofencing API
     virtual gps_provider_error_t geofenceReq(void) = 0;
+    // [ST-GNSS] - Datalogging API
+    virtual gps_provider_error_t configLog(GPSDatalog *datalog) = 0;
+    // [ST-GNSS] - Datalogging API
+    virtual gps_provider_error_t startLog(void) = 0;
+    // [ST-GNSS] - Datalogging API
+    virtual gps_provider_error_t stopLog(void) = 0;
+    // [ST-GNSS] - Datalogging API
+    virtual gps_provider_error_t eraseLog(void) = 0;
+    // [ST-GNSS] - Datalogging API
+    virtual gps_provider_error_t logReqStatus(void) = 0;
+    // [ST-GNSS] - Datalogging API
+    virtual gps_provider_error_t logReqQuery(GPSProvider::LogQueryParams_t &logReqQuery) = 0;
 
     virtual bool haveDeviceInfo(void) const {
         return (deviceInfo != NULL);
@@ -58,15 +71,25 @@ public:
     virtual void onGeofencesTrigger(GPSProvider::GeofencesTriggerCallback_t callback) {
         geofencesTriggerCallback = callback;
     }
+    // [ST-GNSS] - Datalogging API
+    virtual void onLogStatus(GPSProvider::LogStatusCallback_t callback) {
+        logStatusCallback = callback;
+    }
+    // [ST-GNSS] - Datalogging API
+    virtual void onLogQuery(GPSProvider::LogQueryCallback_t callback) {
+        logQueryCallback = callback;
+    }
 
 protected:
     GPSProvider::LocationUpdateParams_t     lastLocation;
     const char                              *deviceInfo;
     GPSProvider::LocationUpdateCallback_t   locationCallback;
     // [ST-GNSS] - Geofencing API
-    GPSGeofence                             **_geofences;
-    // [ST-GNSS] - Geofencing API
     GPSProvider::GeofencesTriggerCallback_t geofencesTriggerCallback; 
+    // [ST-GNSS] - Datalogging API
+    GPSProvider::LogStatusCallback_t        logStatusCallback; 
+    // [ST-GNSS] - Datalogging API
+    GPSProvider::LogQueryCallback_t         logQueryCallback; 
 };
 
 #endif /* __GPS_PROVIDER_INSTANCE_BASE_H__ */
