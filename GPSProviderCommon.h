@@ -65,8 +65,8 @@ enum gps_provider_error_t {
     GPS_ERROR_LOG_NOT_IMPLEMENTED       = 10, /**< Datalog feature is not supported. */
     GPS_ERROR_ODO_START                 = 11, /**< Odometer start error. */
     GPS_ERROR_ODO_STOP                  = 12, /**< Odometer start error. */
-    GPS_ERROR_ODO_RESET                 = 13  /**< Odometer reset error. */
-    GPS_ERROR_ODO_NOT_IMPLEMENTED       = 10, /**< Odometer feature is not supported. */
+    GPS_ERROR_ODO_RESET                 = 13, /**< Odometer reset error. */
+    GPS_ERROR_ODO_NOT_IMPLEMENTED       = 14  /**< Odometer feature is not supported. */
 };
   
 #ifdef __cplusplus
