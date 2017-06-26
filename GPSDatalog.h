@@ -38,8 +38,6 @@
 #ifndef __GPS_DATALOG_H__
 #define __GPS_DATALOG_H__
 
-//class GPSProvider;
-
 class GPSDatalog {
 public:
     
@@ -59,18 +57,6 @@ public:
         _minPosition(minPosition),
         _logMask(logMask) {
     }
-
-    /*
-    virtual void setExpirationDuration (long durationMillis) = 0;
-    
-    virtual void setNotificationResponsiveness (int notificationResponsivenessMs) {
-        _notificationResponsiveness = notificationResponsivenessMs;
-    }
-    
-    virtual void setTransitionTypes(int transitionTypes) {
-        _transitionTypes = transitionTypes;
-    }
-    */
 
 protected:
   bool          _enableBufferFullAlarm;

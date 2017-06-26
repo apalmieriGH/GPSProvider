@@ -31,22 +31,23 @@ public:
     virtual void process(void) = 0;
     virtual void lpmGetImmediateLocation(void) = 0;
     virtual uint32_t ioctl(uint32_t command, void *arg) = 0;
-    // [ST-GNSS] - Geofencing API
+
+    /** [ST-GNSS] - Geofencing API */
     virtual gps_provider_error_t configGeofences(GPSGeofence *geofences[]) = 0;
-    // [ST-GNSS] - Geofencing API
     virtual gps_provider_error_t geofenceReq(void) = 0;
-    // [ST-GNSS] - Datalogging API
-    virtual gps_provider_error_t configLog(GPSDatalog *datalog) = 0;
-    // [ST-GNSS] - Datalogging API
+
+    /** [ST-GNSS] - Datalogging API */
+    virtual gps_provider_error_t configLog(GPSDatalog *datalogs) = 0;
     virtual gps_provider_error_t startLog(void) = 0;
-    // [ST-GNSS] - Datalogging API
     virtual gps_provider_error_t stopLog(void) = 0;
-    // [ST-GNSS] - Datalogging API
     virtual gps_provider_error_t eraseLog(void) = 0;
-    // [ST-GNSS] - Datalogging API
     virtual gps_provider_error_t logReqStatus(void) = 0;
-    // [ST-GNSS] - Datalogging API
     virtual gps_provider_error_t logReqQuery(GPSProvider::LogQueryParams_t &logReqQuery) = 0;
+
+    /**  [ST-GNSS] - Odometer API*/
+    virtual gps_provider_error_t startOdo(void) = 0;
+    virtual gps_provider_error_t stopOdo(void) = 0;
+    virtual gps_provider_error_t resetOdo(void) = 0;
 
     virtual bool haveDeviceInfo(void) const {
         return (deviceInfo != NULL);
@@ -63,33 +64,47 @@ public:
     virtual void onLocationUpdate(GPSProvider::LocationUpdateCallback_t callback) {
         locationCallback = callback;
     }
-    // [ST-GNSS] - Geofencing API
+    /** [ST-GNSS] - Geofencing API */
     virtual bool isGeofencingSupported(void) const { 
         return false; /* Requesting action from porters: override this API if this capability is supported. */ 
     }
-    // [ST-GNSS] - Geofencing API
     virtual void onGeofencesTrigger(GPSProvider::GeofencesTriggerCallback_t callback) {
         geofencesTriggerCallback = callback;
     }
-    // [ST-GNSS] - Datalogging API
+    /** [ST-GNSS] - Datalogging API */
+    virtual bool isDataloggingSupported(void) const { 
+        return false; /* Requesting action from porters: override this API if this capability is supported. */ 
+    }
     virtual void onLogStatus(GPSProvider::LogStatusCallback_t callback) {
         logStatusCallback = callback;
     }
-    // [ST-GNSS] - Datalogging API
     virtual void onLogQuery(GPSProvider::LogQueryCallback_t callback) {
         logQueryCallback = callback;
+    }
+    /** [ST-GNSS] - Odometer API */
+    virtual bool isOdometerSupported(void) const { 
+        return false; /* Requesting action from porters: override this API if this capability is supported. */ 
+    }
+    virtual void onOdo(GPSProvider::OdoCallback_t callback) {
+        odoCallback = callback;
     }
 
 protected:
     GPSProvider::LocationUpdateParams_t     lastLocation;
     const char                              *deviceInfo;
     GPSProvider::LocationUpdateCallback_t   locationCallback;
-    // [ST-GNSS] - Geofencing API
-    GPSProvider::GeofencesTriggerCallback_t geofencesTriggerCallback; 
-    // [ST-GNSS] - Datalogging API
-    GPSProvider::LogStatusCallback_t        logStatusCallback; 
-    // [ST-GNSS] - Datalogging API
-    GPSProvider::LogQueryCallback_t         logQueryCallback; 
+
+    /** [ST-GNSS] - Geofencing API */
+    GPSGeofence                             **_geofences;
+    uint8_t                                 _geofenceCount;
+    GPSProvider::GeofencesTriggerCallback_t geofencesTriggerCallback;
+
+    /** [ST-GNSS] - Datalogging API */
+    GPSProvider::LogStatusCallback_t        logStatusCallback;
+    GPSProvider::LogQueryCallback_t         logQueryCallback;
+
+    /** [ST-GNSS] - Ododmeter API */
+    GPSProvider::OdoCallback_t              odoCallback; 
 };
 
 #endif /* __GPS_PROVIDER_INSTANCE_BASE_H__ */

@@ -90,63 +90,114 @@ GPSProvider::lpmGetImmediateLocation(void)
     impl->lpmGetImmediateLocation();
 }
 
-// [ST-GNSS] - Geofencing API
+/** [ST-GNSS] - Geofencing API */
 bool
 GPSProvider::isGeofencingSupported(void) const
 {
     return impl->isGeofencingSupported();
 }
-// [ST-GNSS] - Geofencing API
+
+/** [ST-GNSS] - Geofencing API */
 gps_provider_error_t
 GPSProvider::configGeofences(GPSGeofence *geofences[])
 { 
   return impl->configGeofences(geofences);
 }
-// [ST-GNSS] - Geofencing API
+
+/** [ST-GNSS] - Geofencing API */
 gps_provider_error_t
 GPSProvider::geofenceReq(void)
 {
   return impl->geofenceReq();
 }
-// [ST-GNSS] - Geofencing API
+
+/** [ST-GNSS] - Geofencing API */
 void
 GPSProvider::onGeofencesTrigger(GeofencesTriggerCallback_t callback)
 {
     impl->onGeofencesTrigger(callback);
 }
-// [ST-GNSS] - Datalogging API
+
+/** [ST-GNSS] - Datalogging API */
 gps_provider_error_t
 GPSProvider::configLog(GPSDatalog *datalog)
 {
   return impl->configLog(datalog);
 }
-// [ST-GNSS] - Datalogging API
+
+/** [ST-GNSS] - Datalogging API */
 gps_provider_error_t
 GPSProvider::startLog(void)
 {
   return impl->startLog();
 }
-// [ST-GNSS] - Datalogging API
+
+/** [ST-GNSS] - Datalogging API */
 gps_provider_error_t
 GPSProvider::stopLog(void)
 {
   return impl->stopLog();
 }
-// [ST-GNSS] - Datalogging API
+
+/** [ST-GNSS] - Datalogging API */
 gps_provider_error_t
 GPSProvider::eraseLog(void)
 {
   return impl->eraseLog();
 }
-// [ST-GNSS] - Datalogging API
+
+/** [ST-GNSS] - Datalogging API */
 gps_provider_error_t
 GPSProvider::logReqStatus(void)
 {
   return impl->logReqStatus();
 }
-// [ST-GNSS] - Datalogging API
+
+/** [ST-GNSS] - Datalogging API */
 gps_provider_error_t
 GPSProvider::logReqQuery(LogQueryParams_t &logReqQuery)
 {
   return impl->logReqQuery(logReqQuery);
+}
+
+/** [ST-GNSS] - Datalogging API */
+void
+GPSProvider::onLogStatus(LogStatusCallback_t callback)
+{
+  impl->onLogStatus(callback);
+}
+
+/** [ST-GNSS] - Datalogging API */
+void
+GPSProvider::onLogQuery(LogQueryCallback_t callback)
+{
+  impl->onLogQuery(callback);
+}
+
+/**  [ST-GNSS] - Odometer API */
+gps_provider_error_t
+GPSProvider::startOdo(void)
+{
+  return impl->startOdo();
+}
+
+/** [ST-GNSS] - Odometer API */
+gps_provider_error_t
+GPSProvider::stopOdo(void)
+{
+  return impl->stopOdo();
+}
+
+/** [ST-GNSS] - Odometer API */
+gps_provider_error_t
+GPSProvider::resetOdo(void)
+{
+  return impl->resetOdo();
+}
+
+/** [ST-GNSS] - Odometer API */
+void
+GPSProvider::onOdo(OdoCallback_t callback)
+{
+  impl->onOdo(callback);
 }

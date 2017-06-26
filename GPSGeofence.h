@@ -38,8 +38,6 @@
 #ifndef __GPS_GEOFENCE_H__
 #define __GPS_GEOFENCE_H__
 
-class GPSProvider;
-
 class GPSGeofence {
 public:
     

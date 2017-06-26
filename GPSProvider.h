@@ -101,7 +101,7 @@ public:
         uint64_t       utcTime; /* UTC time in millisecond */
     };
 
-    // [ST-GNSS] - Geofencing API
+    /** [ST-GNSS] - Geofencing API */
     typedef float GeofenceCircleDistance_t;
     struct GeofencesTriggerParams_t {
       uint8_t bitmap;
@@ -110,8 +110,8 @@ public:
       uint8_t currentStatus;
     };
     
-    // [ST-GNSS] - Datalogging API
-    struct LogTimestamp_t {
+    /** [ST-GNSS] API */
+    struct Timestamp_t {
       uint8_t sec;
       uint8_t min;
       uint8_t hour;
@@ -120,24 +120,26 @@ public:
       int year;
     };
     
-    // [ST-GNSS] - Datalogging API
+    /** [ST-GNSS] - Datalogging API */
     struct LogStatusParams_t {
-      LogTimestamp_t firstEntryTimestamp;
-      LogTimestamp_t lastEntryTimestamp;
+      Timestamp_t firstEntryTimestamp;
+      Timestamp_t lastEntryTimestamp;
       unsigned usedEntries;
       uint8_t bufferStatus;
       unsigned remainingFreeEntries;
     };
-    // [ST-GNSS] - Datalogging API
+
+    /** [ST-GNSS] - Datalogging API */
     struct LogQueryParams_t {
-      LogTimestamp_t startTimestamp;
+      Timestamp_t startTimestamp;
       unsigned entries;
     };
-    // [ST-GNSS] - Datalogging API
+
+    /** [ST-GNSS] - Datalogging API */
     struct LogQueryRespParams_t {
       uint8_t statusBitmap;
       uint8_t logMask;
-      LogTimestamp_t timestamp;
+      Timestamp_t timestamp;
       uint8_t fix;
       unsigned quality;
       uint8_t geo;
@@ -146,6 +148,14 @@ public:
       Altitude_t altitude;
       double speed;
       double odo;
+    };
+
+    // [ST-GNSS] - Odometer API
+    struct OdoParams_t {
+      Timestamp_t timestamp;
+      unsigned odoA;
+      unsigned odoB;
+      unsigned odoPon;
     };
     
 public:
@@ -244,22 +254,99 @@ public:
      */
     uint32_t ioctl(uint32_t command, void *arg);
 
-    // [ST-GNSS] - Geofencing API
+    /**
+     * [ST-GNSS] - Geofencing API
+     * Configure the Geofence subsystem.
+     *
+     * @param  geofences A pointer to an array of geofences to be included within this provider.
+     * @return           GPS_ERROR_NONE on success / GPS_ERROR_GEOFENCES_CFG on failure.
+     */
     gps_provider_error_t configGeofences(GPSGeofence *geofences[]);
-    // [ST-GNSS] - Geofencing API
+
+    /**
+     * [ST-GNSS] - Geofencing API
+     * Request a message to know the internal Geofence subsystem status.
+     *
+     * @return GPS_ERROR_NONE on success / GPS_ERROR_GEOFENCES_REQ on failure.
+     */
     gps_provider_error_t geofenceReq(void);
-    // [ST-GNSS] - Datalogging API
+
+    /**
+     * [ST-GNSS] - Datalogging API
+     * Create and enable a new data log.
+     *
+     * @param  datalog A pointer to data log.
+     * @return GPS_ERROR_NONE on success / GPS_ERROR_LOG_CFG on failure.
+     */
     gps_provider_error_t configLog(GPSDatalog *datalog);
-    // [ST-GNSS] - Datalogging API
+
+    /**
+     * [ST-GNSS] - Datalogging API
+     * Start or restart the current data log.
+     *
+     * @return GPS_ERROR_NONE on success / GPS_ERROR_LOG_START on failure.
+     */
     gps_provider_error_t startLog(void);
-    // [ST-GNSS] - Datalogging API
+
+    /**
+     * [ST-GNSS] - Datalogging API
+     * Stop or restart the current data log.
+     *
+     * @return GPS_ERROR_NONE on success / GPS_ERROR_LOG_STOP on failure.
+     */
     gps_provider_error_t stopLog(void);
-    // [ST-GNSS] - Datalogging API
+
+    /**
+     * [ST-GNSS] - Datalogging API
+     * Erase the current data logging.
+     *
+     * @return GPS_ERROR_NONE on success / GPS_ERROR_LOG_ERASE on failure.
+     */
     gps_provider_error_t eraseLog(void);
-    // [ST-GNSS] - Datalogging API
+
+    /**
+     * [ST-GNSS] - Datalogging API
+     * Raised from the host to get information about the datalog subsystem.
+     *
+     * @return GPS_ERROR_NONE on success / GPS_ERROR_LOG_REQ_STATUS on failure.
+     */
     gps_provider_error_t logReqStatus(void);
-    // [ST-GNSS] - Datalogging API
+
+    /**
+     * [ST-GNSS] - Datalogging API
+     * Trigger a query request to the GNSS receiver.
+     *
+     * @param  logReqQuery The log query request.
+     * @return GPS_ERROR_NONE on success / GPS_ERROR_LOG_REQ_QUERY on failure.
+     */
     gps_provider_error_t logReqQuery(LogQueryParams_t &logReqQuery);
+
+    /**
+     * [ST-GNSS] - Odometer API
+     * Enable and reset the Odometer subsystem.
+     * 
+     * The Odometer subsystem starts evaluating the ground distance
+     * from the current resolved position.
+     *
+     * @return GPS_ERROR_NONE on success / GPS_ERROR_ODO_START on failure.
+     */
+    gps_provider_error_t startOdo(void);
+
+    /**
+     * [ST-GNSS] - Odometer API
+     * Stop the Odometer subsystem.
+     *
+     * @return GPS_ERROR_NONE on success / GPS_ERROR_ODO_START on failure.
+     */
+    gps_provider_error_t stopOdo(void);
+
+    /**
+     * [ST-GNSS] - Odometer API
+     * Reset the Odometer subsystem.
+     *
+     * @return GPS_ERROR_NONE on success / GPS_ERROR_ODO_RESET on failure.
+     */
+    gps_provider_error_t resetOdo(void);
     
     /**
      * @return  true if we've obtained at least one valid location since last
@@ -303,20 +390,72 @@ public:
      */
     void lpmGetImmediateLocation(void);
 
-    // [ST-GNSS] - Geofencing API
+    /**
+     * [ST-GNSS] - Geofencing API
+     */
     bool isGeofencingSupported(void) const;
-    // [ST-GNSS] - Geofencing API
+
+    /**
+     * [ST-GNSS] - Geofencing API
+     *
+     * Type declaration for a callback to be invoked upon
+     * receiving new geofence data.
+     */
     typedef void (* GeofencesTriggerCallback_t)(const GeofencesTriggerParams_t *params);
-    // [ST-GNSS] - Geofencing API
+
+    /**
+     * [ST-GNSS] - Geofencing API
+     *
+     * Setup the geofencesTrigger callback.
+     */
     void onGeofencesTrigger(GeofencesTriggerCallback_t callback);
-    // [ST-GNSS] - Datalogging API
+
+    /**
+     * [ST-GNSS] - Datalogging API
+     *
+     * Type declaration for a callback to be invoked upon
+     * receiving new log status message.
+     *
+     * Report the internal data log subsystem state.
+     */
     typedef void (* LogStatusCallback_t)(const LogStatusParams_t *params);
-    // [ST-GNSS] - Geofencing API
+
+    /**
+     * [ST-GNSS] - Datalogging API
+     *
+     * Setup the log status callback.
+     */
     void onLogStatus(LogStatusCallback_t callback);
-    // [ST-GNSS] - Datalogging API
+
+    /**
+     * [ST-GNSS] - Datalogging API
+     *
+     * Type declaration for a callback to be invoked upon
+     * receiving new log query message compliant to the query raised by the host.
+     */
     typedef void (* LogQueryCallback_t)(const LogQueryRespParams_t *params);
-    // [ST-GNSS] - Geofencing API
+
+    /**
+     * [ST-GNSS] - Datalogging API
+     *
+     * Setup the log query callback.
+     */
     void onLogQuery(LogQueryCallback_t callback);
+
+    /**
+     * [ST-GNSS] - Odometer API
+     *
+     * Type declaration for a callback to be invoked upon
+     * receiving new odometer subsystem megssage.
+     */
+    typedef void (* OdoCallback_t)(const OdoParams_t *params);
+    
+    /**
+     * [ST-GNSS] - Datalogging API
+     *
+     * Setup the odometer callback.
+     */
+    void onOdo(OdoCallback_t callback);
     
 public:
     /**
