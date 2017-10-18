@@ -25,6 +25,7 @@ class GPSDatalog; /* forward declaration */
 class GPSProviderImplBase; /* forward declaration */
 extern GPSProviderImplBase *createGPSProviderInstance(void);
 
+
 //
 // Here's a snippet showing how this API can be used. The handler gets invoked
 // from thread context--i.e. from the main application.
@@ -62,6 +63,7 @@ extern GPSProviderImplBase *createGPSProviderInstance(void);
 //
 
 class GPSProvider {
+  
 public:
     /** Power mode selection */
     enum PowerMode_t {
@@ -84,7 +86,7 @@ public:
         uint32_t tow;       /* time of week (in millisecond) */
     };
 
-    typedef float LocationType_t;
+    typedef double LocationType_t;
     typedef float Altitude_t;
     struct LocationUpdateParams_t {
         uint32_t       version; /* Layout-version for the following structure;
@@ -102,22 +104,19 @@ public:
     };
 
     /** [ST-GNSS] - Geofencing API */
-    typedef float GeofenceCircleDistance_t;
-    struct GeofencesTriggerParams_t {
-      uint8_t bitmap;
-      GPSGeofence *triggeringGeofence;
-      GeofenceCircleDistance_t distance;
-      uint8_t currentStatus;
+    struct Timestamp_t {
+      int hh;  /**< Hours */
+      int mm;  /**< Minutes */
+      int ss;  /**< Seconds */
+      int year;  /**< Year */
+      int month;  /**< Month */
+      int day;  /**< Day */
     };
     
-    /** [ST-GNSS] API */
-    struct Timestamp_t {
-      uint8_t sec;
-      uint8_t min;
-      uint8_t hour;
-      int day;
-      int month;
-      int year;
+    struct GeofenceStatusParams_t {
+      Timestamp_t timestamp;
+      int *currentStatus;
+      int numGeofences;
     };
     
     /** [ST-GNSS] - Datalogging API */
@@ -254,6 +253,9 @@ public:
      */
     uint32_t ioctl(uint32_t command, void *arg);
 
+    /** [ST-GNSS ] - Enable verbose NMEA stream */
+    void setVerboseMode(int level);
+
     /**
      * [ST-GNSS] - Geofencing API
      * Configure the Geofence subsystem.
@@ -261,7 +263,7 @@ public:
      * @param  geofences A pointer to an array of geofences to be included within this provider.
      * @return           GPS_ERROR_NONE on success / GPS_ERROR_GEOFENCES_CFG on failure.
      */
-    gps_provider_error_t configGeofences(GPSGeofence *geofences[]);
+    gps_provider_error_t configGeofences(GPSGeofence *geofences[], unsigned geofenceCount);
 
     /**
      * [ST-GNSS] - Geofencing API
@@ -393,22 +395,34 @@ public:
     /**
      * [ST-GNSS] - Geofencing API
      */
-    bool isGeofencingSupported(void) const;
+    bool isGeofencingSupported(void);
 
     /**
      * [ST-GNSS] - Geofencing API
      *
      * Type declaration for a callback to be invoked upon
-     * receiving new geofence data.
+     * receiving new geofence cfg message.
      */
-    typedef void (* GeofencesTriggerCallback_t)(const GeofencesTriggerParams_t *params);
-
+    typedef void (* GeofenceCfgMessageCallback_t)(int ret_code);
     /**
      * [ST-GNSS] - Geofencing API
      *
-     * Setup the geofencesTrigger callback.
+     * Setup the geofenceCfg callback.
      */
-    void onGeofencesTrigger(GeofencesTriggerCallback_t callback);
+    void onGeofenceCfgMessage(GeofenceCfgMessageCallback_t callback);
+    /**
+     * [ST-GNSS] - Geofencing API
+     *
+     * Type declaration for a callback to be invoked upon
+     * receiving new geofence status message.
+     */
+    typedef void (* GeofenceStatusMessageCallback_t)(const GeofenceStatusParams_t *params, int ret_code);
+    /**
+     * [ST-GNSS] - Geofencing API
+     *
+     * Setup the geofenceStatus callback.
+     */
+    void onGeofenceStatusMessage(GeofenceStatusMessageCallback_t callback);
 
     /**
      * [ST-GNSS] - Datalogging API

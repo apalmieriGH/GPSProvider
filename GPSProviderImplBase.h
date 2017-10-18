@@ -32,8 +32,11 @@ public:
     virtual void lpmGetImmediateLocation(void) = 0;
     virtual uint32_t ioctl(uint32_t command, void *arg) = 0;
 
+    /** [ST-GNSS ] - Enable verbose NMEA stream */
+    virtual void setVerboseMode(int level);
+
     /** [ST-GNSS] - Geofencing API */
-    virtual gps_provider_error_t configGeofences(GPSGeofence *geofences[]) = 0;
+    virtual gps_provider_error_t configGeofences(GPSGeofence *geofences[], unsigned GeofenceCount) = 0;
     virtual gps_provider_error_t geofenceReq(void) = 0;
 
     /** [ST-GNSS] - Datalogging API */
@@ -65,11 +68,14 @@ public:
         locationCallback = callback;
     }
     /** [ST-GNSS] - Geofencing API */
-    virtual bool isGeofencingSupported(void) const { 
+    virtual bool isGeofencingSupported(void) { 
         return false; /* Requesting action from porters: override this API if this capability is supported. */ 
     }
-    virtual void onGeofencesTrigger(GPSProvider::GeofencesTriggerCallback_t callback) {
-        geofencesTriggerCallback = callback;
+    void onGeofenceCfgMessage(GPSProvider::GeofenceCfgMessageCallback_t callback) {
+        geofenceCfgMessageCallback = callback;
+    }
+    void onGeofenceStatusMessage(GPSProvider::GeofenceStatusMessageCallback_t callback) {
+        geofenceStatusMessageCallback = callback;
     }
     /** [ST-GNSS] - Datalogging API */
     virtual bool isDataloggingSupported(void) const { 
@@ -88,23 +94,23 @@ public:
     virtual void onOdo(GPSProvider::OdoCallback_t callback) {
         odoCallback = callback;
     }
-
+    
 protected:
-    GPSProvider::LocationUpdateParams_t     lastLocation;
-    const char                              *deviceInfo;
-    GPSProvider::LocationUpdateCallback_t   locationCallback;
+    GPSProvider::LocationUpdateParams_t          lastLocation;
+    const char                                   *deviceInfo;
+    GPSProvider::LocationUpdateCallback_t        locationCallback;
 
     /** [ST-GNSS] - Geofencing API */
-    GPSGeofence                             **_geofences;
-    uint8_t                                 _geofenceCount;
-    GPSProvider::GeofencesTriggerCallback_t geofencesTriggerCallback;
+    GPSProvider::GeofenceStatusParams_t          geofenceStatus;
+    GPSProvider::GeofenceCfgMessageCallback_t    geofenceCfgMessageCallback;
+    GPSProvider::GeofenceStatusMessageCallback_t geofenceStatusMessageCallback;
 
     /** [ST-GNSS] - Datalogging API */
-    GPSProvider::LogStatusCallback_t        logStatusCallback;
-    GPSProvider::LogQueryCallback_t         logQueryCallback;
+    GPSProvider::LogStatusCallback_t             logStatusCallback;
+    GPSProvider::LogQueryCallback_t              logQueryCallback;
 
     /** [ST-GNSS] - Ododmeter API */
-    GPSProvider::OdoCallback_t              odoCallback; 
+    GPSProvider::OdoCallback_t                   odoCallback; 
 };
 
 #endif /* __GPS_PROVIDER_INSTANCE_BASE_H__ */

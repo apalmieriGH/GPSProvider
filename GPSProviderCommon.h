@@ -50,23 +50,27 @@ enum {
   GEOFENCE_STATUS_INSIDE_CIRCLE         = 3
 };
 
-/*! @brief Error codes for the BLE API. */
+/*! @brief Error codes for the GNSS API. */
 enum gps_provider_error_t {
     GPS_ERROR_NONE                      = 0, /**< No error. */
-    GPS_ERROR_GEOFENCES_CFG             = 1, /**< Geofence regions config error. */
-    GPS_ERROR_GEOFENCES_REQ             = 2, /**< Geofence regions config error. */
-    GPS_ERROR_GEOFENCE_NOT_IMPLEMENTED  = 3, /**< Geofence feature is not supported. */
-    GPS_ERROR_LOG_CFG                   = 4, /**< Datalog config error. */
-    GPS_ERROR_LOG_START                 = 5, /**< Datalog start error. */
-    GPS_ERROR_LOG_STOP                  = 6, /**< Datalog stop error. */
-    GPS_ERROR_LOG_ERASE                 = 7, /**< Datalog erase error. */
-    GPS_ERROR_LOG_REQ_STATUS            = 8, /**< Datalog req status error. */
-    GPS_ERROR_LOG_REQ_QUERY             = 9, /**< Datalog req query error. */
-    GPS_ERROR_LOG_NOT_IMPLEMENTED       = 10, /**< Datalog feature is not supported. */
-    GPS_ERROR_ODO_START                 = 11, /**< Odometer start error. */
-    GPS_ERROR_ODO_STOP                  = 12, /**< Odometer start error. */
-    GPS_ERROR_ODO_RESET                 = 13, /**< Odometer reset error. */
-    GPS_ERROR_ODO_NOT_IMPLEMENTED       = 14  /**< Odometer feature is not supported. */
+    GPS_ERROR_GEOFENCES_MAX_EXCEEDED    = 1, /**< Max num of Geofence regions exceeded error. */
+    GPS_ERROR_GEOFENCES_CFG_FAILED      = 2, /**< Geofence regions config failed. */
+    GPS_ERROR_GEOFENCES_CFG_SUCCESS     = 3, /**< Geofence regions config success. */
+    GPS_ERROR_GEOFENCES_STATUS_FAILED   = 4, /**< Geofence regions status failed. */
+    GPS_ERROR_GEOFENCES_STATUS_SUCCESS  = 5, /**< Geofence regions status success. */
+    GPS_ERROR_GEOFENCE_NOT_IMPLEMENTED  = 6, /**< Geofence feature is not supported. */
+    GPS_ERROR_LOG_CFG                   = 7, /**< Datalog config error. */
+    GPS_ERROR_LOG_START                 = 8, /**< Datalog start error. */
+    GPS_ERROR_LOG_STOP                  = 9, /**< Datalog stop error. */
+    GPS_ERROR_LOG_ERASE                 = 10, /**< Datalog erase error. */
+    GPS_ERROR_LOG_REQ_STATUS            = 11, /**< Datalog req status error. */
+    GPS_ERROR_LOG_REQ_QUERY             = 12, /**< Datalog req query error. */
+    GPS_ERROR_LOG_NOT_IMPLEMENTED       = 13, /**< Datalog feature is not supported. */
+    GPS_ERROR_ODO_START                 = 14, /**< Odometer start error. */
+    GPS_ERROR_ODO_STOP                  = 15, /**< Odometer start error. */
+    GPS_ERROR_ODO_RESET                 = 16, /**< Odometer reset error. */
+    GPS_ERROR_ODO_NOT_IMPLEMENTED       = 17, /**< Odometer feature is not supported. */
+    GPS_ERROR_NO_MEM                    = 18  
 };
   
 #ifdef __cplusplus

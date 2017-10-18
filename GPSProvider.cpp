@@ -90,32 +90,46 @@ GPSProvider::lpmGetImmediateLocation(void)
     impl->lpmGetImmediateLocation();
 }
 
+/** [ST-GNSS ] - Enable verbose NMEA stream */
+void
+GPSProvider::setVerboseMode(int level)
+{
+  impl->setVerboseMode(level);
+}
+
 /** [ST-GNSS] - Geofencing API */
 bool
-GPSProvider::isGeofencingSupported(void) const
+GPSProvider::isGeofencingSupported(void)
 {
     return impl->isGeofencingSupported();
 }
 
 /** [ST-GNSS] - Geofencing API */
 gps_provider_error_t
-GPSProvider::configGeofences(GPSGeofence *geofences[])
-{ 
-  return impl->configGeofences(geofences);
+GPSProvider::configGeofences(GPSGeofence *geofences[], unsigned geofenceCount)
+{  
+  return impl->configGeofences(geofences, geofenceCount);
 }
 
 /** [ST-GNSS] - Geofencing API */
 gps_provider_error_t
 GPSProvider::geofenceReq(void)
-{
+{  
   return impl->geofenceReq();
 }
 
 /** [ST-GNSS] - Geofencing API */
 void
-GPSProvider::onGeofencesTrigger(GeofencesTriggerCallback_t callback)
+GPSProvider::onGeofenceCfgMessage(GeofenceCfgMessageCallback_t callback)
 {
-    impl->onGeofencesTrigger(callback);
+  impl->onGeofenceCfgMessage(callback);
+}
+
+/** [ST-GNSS] - Geofencing API */
+void
+GPSProvider::onGeofenceStatusMessage(GeofenceStatusMessageCallback_t callback)
+{
+  impl->onGeofenceStatusMessage(callback);
 }
 
 /** [ST-GNSS] - Datalogging API */

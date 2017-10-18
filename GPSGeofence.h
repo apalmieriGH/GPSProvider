@@ -50,6 +50,7 @@ public:
       GPSProvider::LocationType_t lat;
       GPSProvider::LocationType_t lon;
       GPSProvider::LocationType_t radius;
+      int status;
     };
 
     /** 
@@ -61,20 +62,37 @@ public:
         _transitionTypes(0) {
     }
     
+    /** 
+     * Construct a GPSGeofence instance. 
+     */ 
+    GPSGeofence(const GeofenceCircle_t &geofenceCircle) :
+        _geofenceCircle(geofenceCircle),
+        _expirationDuration(-1),
+        _notificationResponsiveness(0),
+        _transitionTypes(0) {
+    }
+    
     void setGeofenceCircle(const GeofenceCircle_t &geofenceCircle) {
         _geofenceCircle.id = geofenceCircle.id;
         _geofenceCircle.enabled = geofenceCircle.enabled;
-        _geofenceCircle.tolerance = _geofenceCircle.tolerance;
+        _geofenceCircle.tolerance = geofenceCircle.tolerance;
         _geofenceCircle.lat = geofenceCircle.lat;
         _geofenceCircle.lon = geofenceCircle.lon;
-        _geofenceCircle.radius = _geofenceCircle.radius;
+        _geofenceCircle.radius = geofenceCircle.radius;
+        _geofenceCircle.status = 0;
+    }
+    
+    void updateGeofenceCircleStatus(int status) {
+      _geofenceCircle.status = status;
     }
     
     const GeofenceCircle_t & getGeofenceCircle(void) {
       return _geofenceCircle;
     }
     
-    virtual void setExpirationDuration (long durationMillis) = 0;
+    virtual void setExpirationDuration (long durationMillis) {
+      _expirationDuration = durationMillis;
+    }
     
     virtual void setNotificationResponsiveness (int notificationResponsivenessMs) {
         _notificationResponsiveness = notificationResponsivenessMs;
