@@ -257,11 +257,23 @@ public:
     void setVerboseMode(int level);
 
     /**
+     * [ST-GNSS] - Odometer API
+     * Enable the Geofencing subsystem.
+     * 
+     * The Geofencing subsystem is enabled
+     *
+     * @param alarmDistance The distance from the current resolved position
+     *                      triggering an alarm
+     * @return GPS_ERROR_GEOFNECE_EN_SUCCESS on success / GPS_ERROR_GEOFENCE_EN_FAILED on failure.
+     */
+    gps_provider_error_t enableGeofence(void);
+
+    /**
      * [ST-GNSS] - Geofencing API
      * Configure the Geofence subsystem.
      *
      * @param  geofences A pointer to an array of geofences to be included within this provider.
-     * @return           GPS_ERROR_NONE on success / GPS_ERROR_GEOFENCES_CFG on failure.
+     * @return GPS_ERROR_GEOFENCES_CFG_SUCCESS on success / GPS_ERROR_GEOFENCES_CFG_FAILED on failure.
      */
     gps_provider_error_t configGeofences(GPSGeofence *geofences[], unsigned geofenceCount);
 
@@ -269,7 +281,7 @@ public:
      * [ST-GNSS] - Geofencing API
      * Request a message to know the internal Geofence subsystem status.
      *
-     * @return GPS_ERROR_NONE on success / GPS_ERROR_GEOFENCES_REQ on failure.
+     * @return GPS_ERROR_GEOFENCES_STATUS_SUCCESS on success / GPS_ERROR_GEOFENCES_STATUS_FAILED on failure.
      */
     gps_provider_error_t geofenceReq(void);
 
@@ -325,14 +337,28 @@ public:
 
     /**
      * [ST-GNSS] - Odometer API
-     * Enable and reset the Odometer subsystem.
+     * Enable the Odometer subsystem.
+     * 
+     * The Odometer subsystem is enabled
+     *
+     * @param alarmDistance The distance from the current resolved position
+     *                      triggering an alarm
+     * @return GPS_ERROR_ODO_EN_SUCCESS on success / GPS_ERROR_ODO_EN_FAILED on failure.
+     */
+    gps_provider_error_t enableOdo(void);
+
+    /**
+     * [ST-GNSS] - Odometer API
+     * Reset the Odometer subsystem.
      * 
      * The Odometer subsystem starts evaluating the ground distance
      * from the current resolved position.
      *
+     * @param alarmDistance The distance from the current resolved position
+     *                      triggering an alarm
      * @return GPS_ERROR_NONE on success / GPS_ERROR_ODO_START on failure.
      */
-    gps_provider_error_t startOdo(void);
+    gps_provider_error_t startOdo(unsigned alarmDistance);
 
     /**
      * [ST-GNSS] - Odometer API
@@ -456,6 +482,11 @@ public:
      */
     void onLogQuery(LogQueryCallback_t callback);
 
+    /**
+     * [ST-GNSS] - Odometer API
+     */
+    bool isOdometerSupported(void);
+    
     /**
      * [ST-GNSS] - Odometer API
      *

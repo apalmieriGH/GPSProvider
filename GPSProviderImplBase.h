@@ -36,6 +36,7 @@ public:
     virtual void setVerboseMode(int level);
 
     /** [ST-GNSS] - Geofencing API */
+    virtual gps_provider_error_t enableGeofence(void) = 0;
     virtual gps_provider_error_t configGeofences(GPSGeofence *geofences[], unsigned GeofenceCount) = 0;
     virtual gps_provider_error_t geofenceReq(void) = 0;
 
@@ -48,7 +49,8 @@ public:
     virtual gps_provider_error_t logReqQuery(GPSProvider::LogQueryParams_t &logReqQuery) = 0;
 
     /**  [ST-GNSS] - Odometer API*/
-    virtual gps_provider_error_t startOdo(void) = 0;
+    virtual gps_provider_error_t enableOdo(void) = 0;
+    virtual gps_provider_error_t startOdo(unsigned alarmDistance) = 0;
     virtual gps_provider_error_t stopOdo(void) = 0;
     virtual gps_provider_error_t resetOdo(void) = 0;
 
@@ -88,7 +90,7 @@ public:
         logQueryCallback = callback;
     }
     /** [ST-GNSS] - Odometer API */
-    virtual bool isOdometerSupported(void) const { 
+    virtual bool isOdometerSupported(void) { 
         return false; /* Requesting action from porters: override this API if this capability is supported. */ 
     }
     virtual void onOdo(GPSProvider::OdoCallback_t callback) {

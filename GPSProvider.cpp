@@ -106,6 +106,13 @@ GPSProvider::isGeofencingSupported(void)
 
 /** [ST-GNSS] - Geofencing API */
 gps_provider_error_t
+GPSProvider::enableGeofence(void)
+{
+  return impl->enableGeofence();
+}
+
+/** [ST-GNSS] - Geofencing API */
+gps_provider_error_t
 GPSProvider::configGeofences(GPSGeofence *geofences[], unsigned geofenceCount)
 {  
   return impl->configGeofences(geofences, geofenceCount);
@@ -188,11 +195,25 @@ GPSProvider::onLogQuery(LogQueryCallback_t callback)
   impl->onLogQuery(callback);
 }
 
+/** [ST-GNSS] - Odometer API */
+bool
+GPSProvider::isOdometerSupported(void)
+{
+  return impl->isOdometerSupported();
+}
+
+/** [ST-GNSS] - Odometer API */
+gps_provider_error_t
+GPSProvider::enableOdo(void)
+{
+  return impl->enableOdo();
+}
+
 /**  [ST-GNSS] - Odometer API */
 gps_provider_error_t
-GPSProvider::startOdo(void)
+GPSProvider::startOdo(unsigned alarmDistance)
 {
-  return impl->startOdo();
+  return impl->startOdo(alarmDistance);
 }
 
 /** [ST-GNSS] - Odometer API */
