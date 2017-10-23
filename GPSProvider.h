@@ -260,11 +260,11 @@ public:
      * [ST-GNSS] - Odometer API
      * Enable the Geofencing subsystem.
      * 
-     * The Geofencing subsystem is enabled
+     * The Geofencing subsystem is enabled.
      *
-     * @param alarmDistance The distance from the current resolved position
-     *                      triggering an alarm
-     * @return GPS_ERROR_GEOFNECE_EN_SUCCESS on success / GPS_ERROR_GEOFENCE_EN_FAILED on failure.
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
      */
     gps_provider_error_t enableGeofence(void);
 
@@ -273,7 +273,9 @@ public:
      * Configure the Geofence subsystem.
      *
      * @param  geofences A pointer to an array of geofences to be included within this provider.
-     * @return GPS_ERROR_GEOFENCES_CFG_SUCCESS on success / GPS_ERROR_GEOFENCES_CFG_FAILED on failure.
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
      */
     gps_provider_error_t configGeofences(GPSGeofence *geofences[], unsigned geofenceCount);
 
@@ -281,42 +283,64 @@ public:
      * [ST-GNSS] - Geofencing API
      * Request a message to know the internal Geofence subsystem status.
      *
-     * @return GPS_ERROR_GEOFENCES_STATUS_SUCCESS on success / GPS_ERROR_GEOFENCES_STATUS_FAILED on failure.
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
      */
     gps_provider_error_t geofenceReq(void);
+
+    /**
+     * [ST-GNSS] - Datalogging API
+     * Enable the Datalogging subsystem.
+     * 
+     * The Datalogging subsystem is enabled.
+     *
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
+     */
+    gps_provider_error_t enableDatalog(void);
 
     /**
      * [ST-GNSS] - Datalogging API
      * Create and enable a new data log.
      *
      * @param  datalog A pointer to data log.
-     * @return GPS_ERROR_NONE on success / GPS_ERROR_LOG_CFG on failure.
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
      */
-    gps_provider_error_t configLog(GPSDatalog *datalog);
+    gps_provider_error_t configDatalog(GPSDatalog *datalog);
 
     /**
      * [ST-GNSS] - Datalogging API
      * Start or restart the current data log.
      *
-     * @return GPS_ERROR_NONE on success / GPS_ERROR_LOG_START on failure.
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
      */
-    gps_provider_error_t startLog(void);
+    gps_provider_error_t startDatalog(void);
 
     /**
      * [ST-GNSS] - Datalogging API
      * Stop or restart the current data log.
      *
-     * @return GPS_ERROR_NONE on success / GPS_ERROR_LOG_STOP on failure.
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
      */
-    gps_provider_error_t stopLog(void);
+    gps_provider_error_t stopDatalog(void);
 
     /**
      * [ST-GNSS] - Datalogging API
      * Erase the current data logging.
      *
-     * @return GPS_ERROR_NONE on success / GPS_ERROR_LOG_ERASE on failure.
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
      */
-    gps_provider_error_t eraseLog(void);
+    gps_provider_error_t eraseDatalog(void);
 
     /**
      * [ST-GNSS] - Datalogging API
@@ -339,11 +363,11 @@ public:
      * [ST-GNSS] - Odometer API
      * Enable the Odometer subsystem.
      * 
-     * The Odometer subsystem is enabled
+     * The Odometer subsystem is enabled.
      *
-     * @param alarmDistance The distance from the current resolved position
-     *                      triggering an alarm
-     * @return GPS_ERROR_ODO_EN_SUCCESS on success / GPS_ERROR_ODO_EN_FAILED on failure.
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
      */
     gps_provider_error_t enableOdo(void);
 
@@ -356,7 +380,9 @@ public:
      *
      * @param alarmDistance The distance from the current resolved position
      *                      triggering an alarm
-     * @return GPS_ERROR_NONE on success / GPS_ERROR_ODO_START on failure.
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
      */
     gps_provider_error_t startOdo(unsigned alarmDistance);
 
@@ -364,7 +390,9 @@ public:
      * [ST-GNSS] - Odometer API
      * Stop the Odometer subsystem.
      *
-     * @return GPS_ERROR_NONE on success / GPS_ERROR_ODO_START on failure.
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
      */
     gps_provider_error_t stopOdo(void);
 
@@ -372,7 +400,9 @@ public:
      * [ST-GNSS] - Odometer API
      * Reset the Odometer subsystem.
      *
-     * @return GPS_ERROR_NONE on success / GPS_ERROR_ODO_RESET on failure.
+     * @return GPS_ERROR_NONE on success / 
+     *         A callback (if set) will be invoked upon a message is received
+     *         from the GPS device.
      */
     gps_provider_error_t resetOdo(void);
     
@@ -450,6 +480,11 @@ public:
      */
     void onGeofenceStatusMessage(GeofenceStatusMessageCallback_t callback);
 
+    /**
+     * [ST-GNSS] - Datalogging API
+     */
+    bool isDataloggingSupported(void);
+    
     /**
      * [ST-GNSS] - Datalogging API
      *

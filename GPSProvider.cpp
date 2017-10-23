@@ -140,31 +140,45 @@ GPSProvider::onGeofenceStatusMessage(GeofenceStatusMessageCallback_t callback)
 }
 
 /** [ST-GNSS] - Datalogging API */
-gps_provider_error_t
-GPSProvider::configLog(GPSDatalog *datalog)
+bool
+GPSProvider::isDataloggingSupported(void)
 {
-  return impl->configLog(datalog);
+    return impl->isDataloggingSupported();
 }
 
 /** [ST-GNSS] - Datalogging API */
 gps_provider_error_t
-GPSProvider::startLog(void)
+GPSProvider::enableDatalog(void)
 {
-  return impl->startLog();
+  return impl->enableDatalog();
 }
 
 /** [ST-GNSS] - Datalogging API */
 gps_provider_error_t
-GPSProvider::stopLog(void)
+GPSProvider::configDatalog(GPSDatalog *datalog)
 {
-  return impl->stopLog();
+  return impl->configDatalog(datalog);
 }
 
 /** [ST-GNSS] - Datalogging API */
 gps_provider_error_t
-GPSProvider::eraseLog(void)
+GPSProvider::startDatalog(void)
 {
-  return impl->eraseLog();
+  return impl->startDatalog();
+}
+
+/** [ST-GNSS] - Datalogging API */
+gps_provider_error_t
+GPSProvider::stopDatalog(void)
+{
+  return impl->stopDatalog();
+}
+
+/** [ST-GNSS] - Datalogging API */
+gps_provider_error_t
+GPSProvider::eraseDatalog(void)
+{
+  return impl->eraseDatalog();
 }
 
 /** [ST-GNSS] - Datalogging API */

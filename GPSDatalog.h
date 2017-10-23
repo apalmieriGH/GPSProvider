@@ -58,6 +58,25 @@ public:
         _logMask(logMask) {
     }
 
+    bool getEnableBufferFullAlarm(void) const {
+      return _enableBufferFullAlarm;
+    }
+    bool getEnableCircularBuffer(void) const {
+      return _enableCircularBuffer;
+    }
+    unsigned getMinRate(void) const {
+      return _minRate;
+    }
+    unsigned getMinSpeed(void) const {
+      return _minSpeed;
+    }
+    unsigned getMinPosition(void) const {
+      return _minPosition;
+    }
+    int getLogMask(void) const {
+      return _logMask;
+    }
+    
 protected:
   bool          _enableBufferFullAlarm;
   bool          _enableCircularBuffer;

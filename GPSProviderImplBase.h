@@ -41,10 +41,11 @@ public:
     virtual gps_provider_error_t geofenceReq(void) = 0;
 
     /** [ST-GNSS] - Datalogging API */
-    virtual gps_provider_error_t configLog(GPSDatalog *datalogs) = 0;
-    virtual gps_provider_error_t startLog(void) = 0;
-    virtual gps_provider_error_t stopLog(void) = 0;
-    virtual gps_provider_error_t eraseLog(void) = 0;
+    virtual gps_provider_error_t enableDatalog(void) = 0;
+    virtual gps_provider_error_t configDatalog(GPSDatalog *datalog) = 0;
+    virtual gps_provider_error_t startDatalog(void) = 0;
+    virtual gps_provider_error_t stopDatalog(void) = 0;
+    virtual gps_provider_error_t eraseDatalog(void) = 0;
     virtual gps_provider_error_t logReqStatus(void) = 0;
     virtual gps_provider_error_t logReqQuery(GPSProvider::LogQueryParams_t &logReqQuery) = 0;
 
@@ -80,7 +81,7 @@ public:
         geofenceStatusMessageCallback = callback;
     }
     /** [ST-GNSS] - Datalogging API */
-    virtual bool isDataloggingSupported(void) const { 
+    virtual bool isDataloggingSupported(void) { 
         return false; /* Requesting action from porters: override this API if this capability is supported. */ 
     }
     virtual void onLogStatus(GPSProvider::LogStatusCallback_t callback) {
