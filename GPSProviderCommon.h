@@ -70,7 +70,8 @@ enum gps_provider_error_t {
     GPS_ERROR_ODO_RESET                 = 15, /**< Odometer reset error. */
     GPS_ERROR_ODO_NOT_IMPLEMENTED       = 16, /**< Odometer feature is not supported. */
     GPS_ERROR_MSGLIST_CFG               = 17, /**< Msg List config error. */
-    GPS_ERROR_NO_MEM                    = 18  
+    GPS_ERROR_SAVEPAR                   = 18, /**< Save parmas error. */
+    GPS_ERROR_NO_MEM                    = 19
 };
   
 #ifdef __cplusplus
