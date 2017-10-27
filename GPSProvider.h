@@ -117,6 +117,7 @@ public:
       Timestamp_t timestamp;
       int *currentStatus;
       int numGeofences;
+      int idAlarm;
     };
     
     /** [ST-GNSS] - Datalogging API */
