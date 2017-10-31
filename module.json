@@ -1,0 +1,36 @@
+{
+  "name": "GPSProvider",
+  "version": "1.0.0",
+  "description": "An extension of original API for working with GPS devices.",
+  "keywords": [
+    "GPS",
+    "GNSS",
+    "mbed",
+    "mbed-official"
+  ],
+  "author": "Andrea Palmieri",
+  "repository": {
+    "url": "https://github.com/apalmieriGH/GPSProvider.git",
+    "type": "git"
+  },
+  "homepage": "https://os.mbed.com/teams/components/code/GPSProvider/",
+  "licenses": [
+    {
+      "url": "https://spdx.org/licenses/Apache-2.0",
+      "type": "Apache-2.0"
+    }
+  ],
+  "dependencies": {},
+  "targetDependencies": {
+    "X-NUCLEO-GNSS1A1": {
+      "Teseo-LIV3F": "^1.0.0"
+    },
+    "mbed-classic": {
+      "mbed-classic": "~0.0.1"
+    },
+    "mbed-os": {
+      "mbed-drivers": "*",
+      "compiler-polyfill": "^1.2.1"
+}
+  }
+}
